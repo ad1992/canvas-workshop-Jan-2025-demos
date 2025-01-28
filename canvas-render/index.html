@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas Rendering</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+
+      canvas {
+        display: block;
+        margin: 20px auto;
+        background-color: white;
+      }
+    </style>
+  </head>
+    <h1>Canvas Rendering</h1>
+    <canvas id="canvas1"/>
+    <canvas id ="canvas3"/>
+    <canvas id="canvas2"></canvas>
+
+    <script>
+      const canvas1 = document.getElementById("canvas1");
+      const canvas1Ctx = canvas1.getContext("2d");
+      canvas1Ctx.fillStyle = "#fa5252";
+      canvas1Ctx.fillRect(20, 20, 250, 120);
+
+      const canvas2 = document.getElementById("canvas2");
+      const canvas2Ctx = canvas2.getContext("2d");
+      canvas2Ctx.fillStyle = "#228be6";
+      canvas2Ctx.fillRect(20, 20, 250, 120);
+    </script>
+  </body>
+</html>
