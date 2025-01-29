@@ -4,6 +4,9 @@
   "description": "Canvas rendering demo",
   "main": "index.html",
   "scripts": {
-    "build": "open index.html"
+    "build": "yarn open-cli index.html"
+  },
+  "dependencies": {
+    "open-cli": "^8.0.0"
   }
 }
