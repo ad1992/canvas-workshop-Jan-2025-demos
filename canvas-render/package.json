@@ -1,0 +1,9 @@
+{
+  "name": "canvas-render",
+  "version": "1.0.0",
+  "description": "Canvas rendering demo",
+  "main": "index.html",
+  "scripts": {
+    "build": "open index.html"
+  }
+}
