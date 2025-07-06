@@ -10,9 +10,10 @@ const DEFAULT_GRID_SIZE = 25;
 const DEFAULT_RECT_COORDS = { x: 25, y: 25 };
 const GridCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mousePos, setMousePos] = useState<Point>({ x: 0, y: 0 });
+  const [canvasCoords, setCanvasCoords] = useState<Point>({ x: 0, y: 0 });
   const [gridSize, setGridSize] = useState<number>(DEFAULT_GRID_SIZE);
   const [rectCoords, setRectCoords] = useState<Point>(DEFAULT_RECT_COORDS);
+  const [viewportCoords, setViewportCoords] = useState<Point>({ x: 0, y: 0 });
 
   const animationRef = useRef<number>();
 
@@ -115,16 +116,16 @@ const GridCanvas: React.FC = () => {
     // Draw text for coordinates
     ctx.fillStyle = '#333';
     ctx.font = 'bold 14px Arial';
-    ctx.fillText(`(${mousePos.x}, ${mousePos.y})`, mousePos.x + 10, mousePos.y + 10);
+    ctx.fillText(`(${canvasCoords.x}, ${canvasCoords.y})`, canvasCoords.x + 10, canvasCoords.y + 10);
 
     // Draw coordinate indicator
     ctx.beginPath();
-    ctx.arc(mousePos.x, mousePos.y, 4, 0, Math.PI * 2);
+    ctx.arc(canvasCoords.x, canvasCoords.y, 4, 0, Math.PI * 2);
     ctx.fillStyle = '#007AFF';
     ctx.fill();
 
     animationRef.current = requestAnimationFrame(animate);
-  }, [drawAxes, gridSize, mousePos.x, mousePos.y]);
+  }, [drawAxes, gridSize, canvasCoords.x, canvasCoords.y]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -146,14 +147,21 @@ const GridCanvas: React.FC = () => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [animate, drawAxes, mousePos]);
+  }, [animate, drawAxes, canvasCoords]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Set raw mouse coordinates
+    setViewportCoords({
+      x: Math.round(e.clientX ),
+      y: Math.round(e.clientY),
+    });
+
     const rect = canvas.getBoundingClientRect();
-    setMousePos({
+    // Set canvas coordinates relative to the canvas
+    setCanvasCoords({
       x: Math.round(e.clientX - rect.left),
       y: Math.round(e.clientY - rect.top),
     });
@@ -167,7 +175,7 @@ const GridCanvas: React.FC = () => {
 
   return (
     <div className="canvas-coordinate-system">
-      <h1>Canvas Coordinate System - Part I</h1>
+      <h1>Canvas Coordinate System</h1>
       <div className="canvas-input">
         <div className="input-group">
           <label htmlFor="grid">Grid Size</label>
@@ -200,7 +208,26 @@ const GridCanvas: React.FC = () => {
               }}
             />
           </div>
+          
         </div>
+        <div className="coordinate-display">
+        <div className="coordinate-group input-group">
+          <label>Viewport X</label>
+          <input type="text" value={viewportCoords.x} readOnly />
+        </div>
+        <div className="coordinate-group input-group">
+          <label>Viewport Y</label>
+          <input type="text" value={viewportCoords.y} readOnly />
+        </div>
+        <div className="coordinate-group input-group">
+          <label>Canvas X</label>
+          <input type="text" value={canvasCoords.x} readOnly />
+        </div>
+        <div className="coordinate-group input-group">
+          <label>Canvas Y</label>
+          <input type="text" value={canvasCoords.y} readOnly />
+        </div>
+      </div>
       </div>
       <canvas
         ref={canvasRef}

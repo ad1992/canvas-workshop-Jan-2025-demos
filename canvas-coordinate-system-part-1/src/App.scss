@@ -10,6 +10,7 @@
 
   .canvas-input {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 1rem;
     padding: 1rem;
@@ -41,10 +42,23 @@
     .rect-input {
       display: flex;
       gap: 1rem;
-      flex: 2 1 240px;
     }
+
+    .coordinate-display {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+
+      input:read-only {
+        background: #e3f2fd;
+        color: #000;
+        cursor: not-allowed;
+      }
+    }
+    
   }
 }
+
 
 @media (max-width: 768px) {
   .canvas-input {
